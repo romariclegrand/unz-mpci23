@@ -507,13 +507,13 @@
 <nav class="topbar">
   <div class="logo">UNZ<span>·</span>INFO<span>/23</span></div>
   <ul class="nav-links">
-    <li><a href="fichier.html" class="active">Accueil</a></li>
-    <li><a href="document.html">Bibliothèque</a></li>
-    <li><a href="images.html">Images</a></li>
-    <li><a href="video.html">Vidéos</a></li>
-    <li><a href="actualite.html">Actualités</a></li>
-    <li><a href="apropos.html">À propos</a></li>
-    <li><a href="login.html" class="nav-cta">Connexion</a></li>
+    <li><a href="{% url 'fichier' %}" class="active">Accueil</a></li>
+    <li><a href="{% url 'document' %}">Bibliothèque</a></li>
+    <li><a href="{% url 'images' %}">Images</a></li>
+    <li><a href="{% url 'video' %}">Vidéos</a></li>
+    <li><a href=" {% url 'actualite' %}">Actualités</a></li>
+    <li><a href="{% url 'apropos' %}">À propos</a></li>
+    <li><a href="{% url 'login' %}" class="nav-cta">Connexion</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMenu(this)">
     <span></span><span></span><span></span>
