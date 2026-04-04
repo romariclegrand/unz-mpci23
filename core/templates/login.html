@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — UNZ-INFORMATIQUE/23</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:#1D9E75; --green-dark:#085041;
+      --dark:#1a1a2e; --darker:#0f0f1a;
+      --text:#e8e8f0; --text-muted:#a0a0b8;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'DM Sans',sans-serif;
+      background:var(--darker); color:var(--text);
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+    }
+    .bg {
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 60% 60% at 70% 40%, rgba(29,158,117,0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(127,119,221,0.08) 0%, transparent 60%);
+    }
+    .grid {
+      position:absolute; inset:0; opacity:0.03;
+      background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+      background-size:60px 60px;
+    }
+    .card {
+      position:relative; width:100%; max-width:420px; margin:20px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px; padding:48px 40px;
+    }
+    .logo {
+      font-family:'Syne',sans-serif; font-weight:800; font-size:1.5rem;
+      color:#fff; text-align:center; margin-bottom:8px; letter-spacing:-0.5px;
+    }
+    .logo span { color:var(--green); }
+    .subtitle {
+      text-align:center; font-size:0.88rem; color:var(--text-muted);
+      margin-bottom:36px; line-height:1.5;
+    }
+    .form-group { margin-bottom:18px; }
+    label { display:block; font-size:0.82rem; font-weight:500; color:var(--text-muted); margin-bottom:8px; letter-spacing:0.3px; }
+    input[type="text"], input[type="password"] {
+      width:100%; padding:12px 16px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:12px; color:var(--text);
+      font-size:0.95rem; font-family:'DM Sans',sans-serif;
+      outline:none; transition:border-color 0.2s;
+    }
+    input:focus { border-color:rgba(29,158,117,0.5); }
+    input::placeholder { color:rgba(255,255,255,0.2); }
+    .btn-login {
+      width:100%; padding:14px;
+      background:var(--green); color:#fff; border:none;
+      border-radius:12px; font-size:1rem; font-weight:500;
+      font-family:'DM Sans',sans-serif; cursor:pointer;
+      transition:all 0.25s; margin-top:8px;
+    }
+    .btn-login:hover { background:var(--green-dark); transform:translateY(-1px); }
+    .error-msg {
+      background:rgba(216,90,48,0.12); border:1px solid rgba(216,90,48,0.25);
+      color:#f0997b; border-radius:10px; padding:12px 16px;
+      font-size:0.85rem; margin-bottom:18px; text-align:center;
+    }
+    .divider { text-align:center; margin:24px 0 0; font-size:0.8rem; color:var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="grid"></div>
+  <div class="card">
+    <div class="logo">UNZ<span>·</span>INFO<span>/23</span></div>
+    <p class="subtitle">Connecte-toi pour accéder à la plateforme<br>de la promotion INFORMATIQUE 2023</p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="error-msg">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Identifiant</label>
+        <input type="text" name="username" placeholder="Ton identifiant" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-login">Se connecter →</button>
+    </form>
+    <p class="divider">Université Norbert Zongo · Koudougou</p>
+  </div>
+</body>
+</html>

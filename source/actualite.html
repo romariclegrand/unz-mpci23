@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualités — UNZ-MPCI/23</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1D9E75; --green-light: #E1F5EE; --green-dark: #085041;
+      --amber: #EF9F27; --coral: #D85A30; --purple: #7F77DD; --blue: #378ADD;
+      --dark: #1a1a2e; --darker: #0f0f1a; --text: #e8e8f0; --text-muted: #a0a0b8;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--darker); color:var(--text); overflow-x:hidden; }
+
+    .topbar {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 40px; display:flex; justify-content:space-between; align-items:center;
+      background:rgba(15,15,26,0.85); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; letter-spacing:-0.5px; color:#fff; text-decoration:none; }
+    .logo span { color:var(--green); }
+    .nav-links { display:flex; gap:8px; list-style:none; }
+    .nav-links a { text-decoration:none; font-size:0.85rem; font-weight:500; color:var(--text-muted); padding:7px 14px; border-radius:20px; transition:all 0.2s; }
+    .nav-links a:hover, .nav-links a.active { background:rgba(29,158,117,0.15); color:var(--green); }
+    .nav-cta { background:var(--green) !important; color:#fff !important; }
+    .nav-cta:hover { background:var(--green-dark) !important; color:#fff !important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; }
+    .hamburger span { width:24px; height:2px; background:var(--text); border-radius:2px; }
+
+    .page-hero {
+      padding: 140px 40px 60px;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content:'';
+      position:absolute; top:0; right:0; width:50%; height:100%;
+      background: radial-gradient(ellipse at 80% 50%, rgba(239,159,39,0.08) 0%, transparent 70%);
+    }
+    .page-hero-inner { max-width:1200px; margin:0 auto; position:relative; }
+    .section-tag { display:inline-block; font-size:0.75rem; font-weight:500; text-transform:uppercase; letter-spacing:2px; color:var(--amber); margin-bottom:12px; }
+    .page-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2.2rem,5vw,3.5rem); letter-spacing:-2px; color:#fff; line-height:1.05; }
+    .page-subtitle { font-size:1rem; color:var(--text-muted); margin-top:12px; max-width:500px; line-height:1.7; }
+
+    .filter-bar {
+      padding: 24px 40px;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .filter-bar-inner { max-width:1200px; margin:0 auto; display:flex; gap:10px; flex-wrap:wrap; width:100%; }
+    .filter-btn {
+      padding: 7px 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+      background: transparent; color: var(--text-muted); font-size: 0.82rem; font-weight:500;
+      cursor: pointer; transition: all 0.2s; font-family:'DM Sans',sans-serif;
+    }
+    .filter-btn:hover { border-color: rgba(239,159,39,0.4); color: var(--amber); }
+    .filter-btn.active { background: rgba(239,159,39,0.15); border-color:rgba(239,159,39,0.4); color: var(--amber); }
+
+    main { padding: 60px 40px; max-width:1200px; margin:0 auto; }
+
+    .actu-big {
+      display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin-bottom: 24px;
+    }
+    .actu-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
+
+    .actu-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px; overflow: hidden; transition: all 0.3s; cursor: pointer;
+    }
+    .actu-card:hover { border-color: rgba(239,159,39,0.3); transform: translateY(-4px); background: rgba(239,159,39,0.03); }
+
+    .actu-header {
+      height: 6px;
+    }
+    .h-coral { background: var(--coral); }
+    .h-green { background: var(--green); }
+    .h-purple { background: var(--purple); }
+    .h-blue { background: var(--blue); }
+    .h-amber { background: var(--amber); }
+
+    .actu-body { padding: 24px; }
+
+    .actu-tag { display:inline-block; font-size:0.72rem; font-weight:500; text-transform:uppercase; letter-spacing:1px; padding:4px 12px; border-radius:20px; margin-bottom:14px; }
+    .tag-coral { background:rgba(216,90,48,0.15); color:var(--coral); }
+    .tag-green { background:rgba(29,158,117,0.15); color:var(--green); }
+    .tag-purple { background:rgba(127,119,221,0.15); color:var(--purple); }
+    .tag-blue { background:rgba(55,138,221,0.15); color:var(--blue); }
+    .tag-amber { background:rgba(239,159,39,0.15); color:var(--amber); }
+
+    .actu-date { font-size:0.78rem; color:var(--text-muted); margin-bottom:8px; }
+    .actu-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.05rem; color:#fff; line-height:1.3; margin-bottom:10px; }
+    .actu-featured .actu-title { font-size:1.5rem; }
+    .actu-excerpt { font-size:0.88rem; color:var(--text-muted); line-height:1.65; }
+    .actu-link { display:inline-block; margin-top:16px; font-size:0.85rem; color:var(--amber); text-decoration:none; font-weight:500; }
+    .actu-link:hover { color:#fff; }
+
+    footer { background:#080812; padding:40px; text-align:center; border-top:1px solid rgba(255,255,255,0.05); }
+    .footer-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:#fff; margin-bottom:8px; }
+    .footer-logo span { color:var(--green); }
+    .footer-copy { font-size:0.82rem; color:var(--text-muted); }
+
+    .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:900px) {
+      .actu-big, .actu-row { grid-template-columns:1fr; }
+      .nav-links { display:none; } .hamburger { display:flex; }
+      .topbar, .page-hero, main, .filter-bar { padding-left:20px; padding-right:20px; }
+    }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:var(--darker); }
+    ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:3px; }
+  </style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="fichier.html" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
+  <ul class="nav-links">
+    <li><a href="fichier.html">Accueil</a></li>
+    <li><a href="document.html">Bibliothèque</a></li>
+    <li><a href="images.html">Images</a></li>
+    <li><a href="video.html">Vidéos</a></li>
+    <li><a href="actualite.html" class="active">Actualités</a></li>
+    <li><a href="apropos.html">À propos</a></li>
+    <li><a href="login.html" class="nav-cta">Connexion</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="section-tag">Actualités</span>
+    <h1 class="page-title">Vie de la promotion</h1>
+    <p class="page-subtitle">Événements, assemblées, informations et annonces officielles de la promotion 2023.</p>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <button class="filter-btn active">Tout</button>
+    <button class="filter-btn">Événements</button>
+    <button class="filter-btn">Assemblées</button>
+    <button class="filter-btn">Université</button>
+    <button class="filter-btn">Organisation</button>
+  </div>
+</div>
+
+<main>
+
+  <div class="actu-big fade-up">
+    <div class="actu-card actu-featured">
+      <div class="actu-header h-coral"></div>
+      <div class="actu-body">
+        <span class="actu-tag tag-coral">Assemblée</span>
+        <div class="actu-date">10 Janvier 2025</div>
+        <div class="actu-title">Compte rendu de l'AG du 10 Janvier 2025</div>
+        <p class="actu-excerpt">
+          Le délégué ZONGO Lucien a jugé nécessaire la tenue d'une assemblée générale avant les évaluations du semestre 2.
+          Un bilan complet a été dressé sur la dispensation des cours, les copies en attente à l'administration, et les défis
+          auxquels fait face la promotion. Un chronogramme des devoirs a été adopté à l'unanimité. Il a également été décidé
+          que les évaluations du S2 seraient suspendues une fois les résultats du S1 tombés, afin de permettre la composition de la session de rattrapage.
+        </p>
+        <a href="#" class="actu-link">Lire la suite →</a>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div class="actu-card">
+        <div class="actu-header h-green"></div>
+        <div class="actu-body">
+          <span class="actu-tag tag-green">Université</span>
+          <div class="actu-date">3 Mars 2025</div>
+          <div class="actu-title">Montée des couleurs nationales à l'UNZ</div>
+          <p class="actu-excerpt">Cérémonie solennelle organisée avec la gendarmerie nationale. Le Pr MOUMOULA a annoncé le contrôle de présence des agents en vigueur depuis le 1er mars.</p>
+          <a href="#" class="actu-link">Lire →</a>
+        </div>
+      </div>
+      <div class="actu-card">
+        <div class="actu-header h-coral"></div>
+        <div class="actu-body">
+          <span class="actu-tag tag-coral">Événement triste</span>
+          <div class="actu-date">2025</div>
+          <div class="actu-title">Hommage au camarade SERE de SVT-P23</div>
+          <p class="actu-excerpt">Le Pr MOUMOULA et une délégation se sont rendus sur les lieux du malheureux accident qui a endeuillé tout le campus.</p>
+          <a href="#" class="actu-link">Lire →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actu-row fade-up">
+    <div class="actu-card">
+      <div class="actu-header h-purple"></div>
+      <div class="actu-body">
+        <span class="actu-tag tag-purple">Organisation</span>
+        <div class="actu-date">Janvier 2025</div>
+        <div class="actu-title">Mise en place du comité de suivi ANEB/KDG</div>
+        <p class="actu-excerpt">L'ANEB installe un comité de la corporation Sciences & Technologies pour suivre et évaluer la vie de la promotion.</p>
+      </div>
+    </div>
+
+    <div class="actu-card">
+      <div class="actu-header h-blue"></div>
+      <div class="actu-body">
+        <span class="actu-tag tag-blue">Cours</span>
+        <div class="actu-date">7 Janvier 2025</div>
+        <div class="actu-title">Premier cours de 2025 avec le Dr Paré Daouda</div>
+        <p class="actu-excerpt">La promotion effectue son premier cours de l'année avec le Dr Paré Daouda, maître assistant de mathématiques inscrit au CAMES.</p>
+      </div>
+    </div>
+
+    <div class="actu-card">
+      <div class="actu-header h-amber"></div>
+      <div class="actu-body">
+        <span class="actu-tag tag-amber">Rentrée</span>
+        <div class="actu-date">6 Novembre 2023</div>
+        <div class="actu-title">Rentrée académique de la promotion 2023</div>
+        <p class="actu-excerpt">Première rentrée dans les locaux du bâtiment PSUT, avec le cours d'Algèbre du Dr SAWADOGO. Une promotion nombreuse et enthousiaste.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">UNZ<span>·</span>INFO<span>/23</span></div>
+  <p class="footer-copy">© 2025 — Promotion 2023 Informatique, Université Norbert Zongo · Koudougou, Burkina Faso<br>Réalisé par YWR &amp; TMO</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
