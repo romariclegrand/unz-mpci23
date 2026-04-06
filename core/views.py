@@ -53,10 +53,3 @@ def apropos(request):
     return render(request, 'apropos.html', {'membres': membres})
 
 
-def create_admin(request):
-    from django.contrib.auth.models import User
-    from django.http import HttpResponse
-    if not User.objects.filter(username='romaric').exists():
-        User.objects.create_superuser('romaric', 'romaricyelkouni1@gmail.com', 'unzmpci2025')
-        return HttpResponse('Superutilisateur créé !')
-    return HttpResponse('Existe déjà !')
