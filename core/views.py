@@ -53,3 +53,13 @@ def apropos(request):
     return render(request, 'apropos.html', {'membres': membres})
 
 
+def reset_admin(request):
+    from django.contrib.auth.models import User
+    from django.http import HttpResponse
+    try:
+        user = User.objects.get(username='romaric')
+        user.set_password('unzmpci2025')
+        user.save()
+        return HttpResponse('Mot de passe réinitialisé !')
+    except:
+        return HttpResponse('Utilisateur non trouvé !')
