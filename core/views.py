@@ -56,10 +56,12 @@ def apropos(request):
 def reset_admin(request):
     from django.contrib.auth.models import User
     from django.http import HttpResponse
-    try:
-        user = User.objects.get(username='romaric')
-        user.set_password('unzmpci2025')
-        user.save()
-        return HttpResponse('Mot de passe réinitialisé !')
-    except:
-        return HttpResponse('Utilisateur non trouvé !')
+    user, created = User.objects.get_or_create(username='romaric')
+    user.set_password('unzmpci2025')
+    user.is_superuser = True
+    user.is_staff = True
+    user.email = 'romaricyelkouni1@gmail.com'
+    user.save()
+    if created:
+        return HttpResponse('Superutilisateur créé !')
+    return HttpResponse('Mot de passe réinitialisé !')
