@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Actualite, Document, Image, Video, MembrePromotion
+from django.contrib.auth.forms import UserCreationForm
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -65,3 +66,18 @@ def reset_admin(request):
     if created:
         return HttpResponse('Superutilisateur créé !')
     return HttpResponse('Mot de passe réinitialisé !')
+
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('accueil')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('accueil')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
