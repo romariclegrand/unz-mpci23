@@ -81,3 +81,26 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+
+from django.contrib.auth.decorators import login_required
+from .models import Document, Actualite
+from django.shortcuts import render, redirect
+
+@login_required
+def ajouter_document(request):
+    if request.method == 'POST':
+        titre = request.POST.get('titre')
+        matiere = request.POST.get('matiere')
+        description = request.POST.get('description')
+        fichier = request.FILES.get('fichier')
+        if titre and fichier:
+            Document.objects.create(
+                titre=titre,
+                matiere=matiere,
+                description=description,
+                fichier=fichier,
+                ajoute_par=request.user
+            )
+            return redirect('bibliotheque')
+    return render(request, 'ajouter_document.html')

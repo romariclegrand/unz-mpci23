@@ -12,4 +12,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('reset-admin/', views.reset_admin, name='reset_admin'),
     path('register/', views.register, name='register'),
+    path('documents/ajouter/', views.ajouter_document, name='ajouter_document'),
 ]

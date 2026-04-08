@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter un document — UNZ-MPCI/23</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:#1D9E75; --green-dark:#085041; --amber:#EF9F27;
+      --blue:#378ADD; --dark:#1a1a2e; --darker:#0f0f1a;
+      --text:#e8e8f0; --text-muted:#a0a0b8;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--darker); color:var(--text); min-height:100vh; }
+    .topbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:16px 40px; display:flex; justify-content:space-between; align-items:center; background:rgba(15,15,26,0.85); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.05); }
+    .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:#fff; text-decoration:none; }
+    .logo span { color:var(--green); }
+    main { max-width:700px; margin:0 auto; padding:120px 40px 60px; }
+    .page-title { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; letter-spacing:-1px; color:#fff; margin-bottom:8px; }
+    .page-sub { font-size:0.95rem; color:var(--text-muted); margin-bottom:40px; }
+    .form-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:36px; }
+    .form-group { margin-bottom:20px; }
+    label { display:block; font-size:0.85rem; font-weight:500; color:var(--text-muted); margin-bottom:8px; letter-spacing:0.3px; }
+    input[type="text"], select, textarea {
+      width:100%; padding:12px 16px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:12px; color:var(--text);
+      font-size:0.95rem; font-family:'DM Sans',sans-serif;
+      outline:none; transition:border-color 0.2s;
+    }
+    select option { background:#1a1a2e; }
+    textarea { resize:vertical; min-height:100px; }
+    input:focus, select:focus, textarea:focus { border-color:rgba(55,138,221,0.5); }
+    .file-upload {
+      width:100%; padding:24px;
+      background:rgba(255,255,255,0.03);
+      border:2px dashed rgba(255,255,255,0.15);
+      border-radius:12px; text-align:center;
+      cursor:pointer; transition:all 0.2s;
+    }
+    .file-upload:hover { border-color:rgba(55,138,221,0.4); background:rgba(55,138,221,0.05); }
+    .file-upload input { display:none; }
+    .file-label { font-size:0.9rem; color:var(--text-muted); cursor:pointer; }
+    .file-name { font-size:0.85rem; color:var(--green); margin-top:8px; display:none; }
+    .btn-submit {
+      width:100%; padding:14px;
+      background:var(--green); color:#fff; border:none;
+      border-radius:12px; font-size:1rem; font-weight:500;
+      font-family:'DM Sans',sans-serif; cursor:pointer;
+      transition:all 0.25s; margin-top:8px;
+    }
+    .btn-submit:hover { background:var(--green-dark); transform:translateY(-1px); }
+    .btn-back { display:inline-flex; align-items:center; gap:8px; color:var(--text-muted); text-decoration:none; font-size:0.85rem; margin-bottom:24px; transition:color 0.2s; }
+    .btn-back:hover { color:#fff; }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <a href="{% url 'accueil' %}" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
+  </nav>
+
+  <main>
+    <a href="{% url 'bibliotheque' %}" class="btn-back">← Retour à la bibliothèque</a>
+    <h1 class="page-title">Partager un document</h1>
+    <p class="page-sub">Contribue à la bibliothèque commune de la promotion.</p>
+
+    <div class="form-card">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Titre du document *</label>
+          <input type="text" name="titre" placeholder="Ex: Cours d'Algorithmique S2" required>
+        </div>
+        <div class="form-group">
+          <label>Matière *</label>
+          <select name="matiere" required>
+            <option value="">-- Choisir une matière --</option>
+            <option value="Informatique">Informatique</option>
+            <option value="Physique">Physique</option>
+            <option value="Mathematiques">Mathématiques</option>
+            <option value="Droit">Droit</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description (optionnelle)</label>
+          <textarea name="description" placeholder="Brève description du document..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Fichier *</label>
+          <div class="file-upload" onclick="document.getElementById('fichier').click()">
+            <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx,.ppt,.pptx" required onchange="showFileName(this)">
+            <p class="file-label">📄 Clique pour choisir un fichier (PDF, Word, PowerPoint)</p>
+            <p class="file-name" id="file-name"></p>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Partager le document →</button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function showFileName(input) {
+      const name = document.getElementById('file-name');
+      if (input.files && input.files[0]) {
+        name.textContent = '✓ ' + input.files[0].name;
+        name.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter un document — UNZ-MPCI/23</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:#1D9E75; --green-dark:#085041; --amber:#EF9F27;
+      --blue:#378ADD; --dark:#1a1a2e; --darker:#0f0f1a;
+      --text:#e8e8f0; --text-muted:#a0a0b8;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--darker); color:var(--text); min-height:100vh; }
+    .topbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:16px 40px; display:flex; justify-content:space-between; align-items:center; background:rgba(15,15,26,0.85); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.05); }
+    .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:#fff; text-decoration:none; }
+    .logo span { color:var(--green); }
+    main { max-width:700px; margin:0 auto; padding:120px 40px 60px; }
+    .page-title { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; letter-spacing:-1px; color:#fff; margin-bottom:8px; }
+    .page-sub { font-size:0.95rem; color:var(--text-muted); margin-bottom:40px; }
+    .form-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:36px; }
+    .form-group { margin-bottom:20px; }
+    label { display:block; font-size:0.85rem; font-weight:500; color:var(--text-muted); margin-bottom:8px; letter-spacing:0.3px; }
+    input[type="text"], select, textarea {
+      width:100%; padding:12px 16px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:12px; color:var(--text);
+      font-size:0.95rem; font-family:'DM Sans',sans-serif;
+      outline:none; transition:border-color 0.2s;
+    }
+    select option { background:#1a1a2e; }
+    textarea { resize:vertical; min-height:100px; }
+    input:focus, select:focus, textarea:focus { border-color:rgba(55,138,221,0.5); }
+    .file-upload {
+      width:100%; padding:24px;
+      background:rgba(255,255,255,0.03);
+      border:2px dashed rgba(255,255,255,0.15);
+      border-radius:12px; text-align:center;
+      cursor:pointer; transition:all 0.2s;
+    }
+    .file-upload:hover { border-color:rgba(55,138,221,0.4); background:rgba(55,138,221,0.05); }
+    .file-upload input { display:none; }
+    .file-label { font-size:0.9rem; color:var(--text-muted); cursor:pointer; }
+    .file-name { font-size:0.85rem; color:var(--green); margin-top:8px; display:none; }
+    .btn-submit {
+      width:100%; padding:14px;
+      background:var(--green); color:#fff; border:none;
+      border-radius:12px; font-size:1rem; font-weight:500;
+      font-family:'DM Sans',sans-serif; cursor:pointer;
+      transition:all 0.25s; margin-top:8px;
+    }
+    .btn-submit:hover { background:var(--green-dark); transform:translateY(-1px); }
+    .btn-back { display:inline-flex; align-items:center; gap:8px; color:var(--text-muted); text-decoration:none; font-size:0.85rem; margin-bottom:24px; transition:color 0.2s; }
+    .btn-back:hover { color:#fff; }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <a href="{% url 'accueil' %}" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
+  </nav>
+
+  <main>
+    <a href="{% url 'bibliotheque' %}" class="btn-back">← Retour à la bibliothèque</a>
+    <h1 class="page-title">Partager un document</h1>
+    <p class="page-sub">Contribue à la bibliothèque commune de la promotion.</p>
+
+    <div class="form-card">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Titre du document *</label>
+          <input type="text" name="titre" placeholder="Ex: Cours d'Algorithmique S2" required>
+        </div>
+        <div class="form-group">
+          <label>Matière *</label>
+          <select name="matiere" required>
+            <option value="">-- Choisir une matière --</option>
+            <option value="Informatique">Informatique</option>
+            <option value="Physique">Physique</option>
+            <option value="Mathematiques">Mathématiques</option>
+            <option value="Droit">Droit</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description (optionnelle)</label>
+          <textarea name="description" placeholder="Brève description du document..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Fichier *</label>
+          <div class="file-upload" onclick="document.getElementById('fichier').click()">
+            <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx,.ppt,.pptx" required onchange="showFileName(this)">
+            <p class="file-label">📄 Clique pour choisir un fichier (PDF, Word, PowerPoint)</p>
+            <p class="file-name" id="file-name"></p>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Partager le document →</button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function showFileName(input) {
+      const name = document.getElementById('file-name');
+      if (input.files && input.files[0]) {
+        name.textContent = '✓ ' + input.files[0].name;
+        name.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
