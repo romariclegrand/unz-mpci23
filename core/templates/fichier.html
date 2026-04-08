@@ -34,7 +34,6 @@
       overflow-x: hidden;
     }
 
-    /* ---- NAVBAR ---- */
     .topbar {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -54,6 +53,7 @@
       font-size: 1.4rem;
       letter-spacing: -0.5px;
       color: #fff;
+      text-decoration: none;
     }
     .logo span { color: var(--green); }
 
@@ -94,7 +94,6 @@
       transition: all 0.3s;
     }
 
-    /* ---- HERO ---- */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -231,7 +230,6 @@
       border-top: 1px solid rgba(255,255,255,0.06);
       flex-wrap: wrap;
     }
-    .stat-item {}
     .stat-num {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -240,7 +238,6 @@
     }
     .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 
-    /* ---- SECTIONS COMMUNES ---- */
     .section-tag {
       display: inline-block;
       font-size: 0.75rem;
@@ -268,7 +265,6 @@
       line-height: 1.7;
     }
 
-    /* ---- ACTUALITES ---- */
     .actualites { padding: 100px 40px; background: var(--dark); }
     .actu-grid {
       display: grid;
@@ -292,7 +288,6 @@
     }
 
     .actu-featured { grid-row: span 2; }
-
     .actu-body { padding: 24px; }
 
     .actu-tag {
@@ -322,7 +317,6 @@
     .actu-featured .actu-title { font-size: 1.5rem; }
     .actu-excerpt { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* ---- BIBLIOTHEQUE ---- */
     .bibliotheque { padding: 100px 40px; background: var(--darker); }
 
     .doc-grid {
@@ -357,9 +351,7 @@
       font-size: 1.2rem;
     }
     .doc-icon-pdf { background: rgba(216,90,48,0.15); }
-    .doc-icon-word { background: rgba(55,138,221,0.15); }
 
-    .doc-info {}
     .doc-title {
       font-weight: 500;
       font-size: 0.92rem;
@@ -390,7 +382,6 @@
     }
     .doc-btn-view:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
-    /* ---- DELEGATION ---- */
     .delegation { padding: 100px 40px; background: var(--dark); }
 
     .delegation-grid {
@@ -458,7 +449,6 @@
     }
     .membre-contact a:hover { border-color: var(--green); color: var(--green); }
 
-    /* ---- FOOTER ---- */
     footer {
       background: #080812;
       padding: 40px;
@@ -475,7 +465,6 @@
     .footer-logo span { color: var(--green); }
     .footer-copy { font-size: 0.82rem; color: var(--text-muted); }
 
-    /* ---- RESPONSIVE ---- */
     @media (max-width: 900px) {
       .actu-grid { grid-template-columns: 1fr; }
       .actu-featured { grid-row: auto; }
@@ -486,7 +475,6 @@
       .hero-stats { gap: 24px; }
     }
 
-    /* ---- ANIMATIONS ---- */
     .fade-up {
       opacity: 0;
       transform: translateY(24px);
@@ -494,7 +482,6 @@
     }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--darker); }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
@@ -503,22 +490,22 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="topbar">
-  <a href="fichier.html" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
-  <ul class="nav-links">
-    <li><a href="{% url 'accueil' %}">Accueil</a></li>
+  <a href="{% url 'accueil' %}" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
+  <ul class="nav-links" id="navMenu">
+    <li><a href="{% url 'accueil' %}" class="active">Accueil</a></li>
     <li><a href="{% url 'bibliotheque' %}">Bibliothèque</a></li>
-    <li><a href=" {% url 'images' %}">Images</a></li>
+    <li><a href="{% url 'images' %}">Images</a></li>
     <li><a href="#">Vidéos</a></li>
-    <li><a href="{% url 'actualites' %}" class="active">Actualités</a></li>
+    <li><a href="{% url 'actualites' %}">Actualités</a></li>
     <li><a href="{% url 'apropos' %}">À propos</a></li>
-    <li><a href="{% url 'login' %}" class="nav-cta">Connexion</a></li>
+    <li><a href="{% url 'logout' %}" class="nav-cta">Déconnexion</a></li>
   </ul>
-  <div class="hamburger"><span></span><span></span><span></span></div>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
@@ -526,7 +513,7 @@
     <div class="hero-badge">Promotion 2023 — Informatique</div>
     <h1>
       <span class="line1">Université Norbert Zongo</span>
-      <span class="line2">MPCI  · Koudougou</span>
+      <span class="line2">MPCI · Koudougou</span>
     </h1>
     <p class="hero-desc">
       La plateforme officielle de la promotion 2023 en Mathématiques, Physique et Informatique.
@@ -558,7 +545,6 @@
   </div>
 </section>
 
-<!-- ACTUALITÉS -->
 <section class="actualites fade-up">
   <div style="max-width:1200px; margin:0 auto;">
     <span class="section-tag">Actualités</span>
@@ -603,7 +589,6 @@
   </div>
 </section>
 
-<!-- BIBLIOTHÈQUE -->
 <section class="bibliotheque fade-up">
   <div style="max-width:1200px; margin:0 auto;">
     <span class="section-tag">Ressources</span>
@@ -611,6 +596,7 @@
     <p class="section-desc">Téléchargez ou consultez en ligne les cours et documents de la promotion.</p>
 
     <div class="doc-grid">
+      {% for doc in actualites %}{% endfor %}
 
       <div class="doc-card">
         <div class="doc-icon doc-icon-pdf">📄</div>
@@ -676,7 +662,6 @@
   </div>
 </section>
 
-<!-- DÉLÉGATION -->
 <section class="delegation fade-up">
   <div style="max-width:1200px; margin:0 auto;">
     <span class="section-tag">Représentation</span>
@@ -688,7 +673,7 @@
       <div class="membre-card">
         <div class="avatar av-green">YWR</div>
         <div class="membre-role">Délégué de promotion</div>
-        <div class="membre-name"> YELKOUNI Wend-nonga Romaric</div>
+        <div class="membre-name">YELKOUNI Wend-nonga Romaric</div>
         <div class="membre-contact">
           <a href="https://wa.me/+22654084544" target="_blank">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -709,12 +694,10 @@
         </div>
       </div>
 
-
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">UNZ<span>·</span>INFO<span>/23</span></div>
   <p class="footer-copy">© 2025 — Promotion 2023 Informatique, Université Norbert Zongo · Koudougou, Burkina Faso<br>Réalisé par YWR-BF &amp; TMO-RCI</p>
@@ -722,26 +705,32 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Mobile menu
-  function toggleMenu(btn) {
-    const nav = document.querySelector('.nav-links');
-    const open = nav.style.display === 'flex';
-    nav.style.display = open ? 'none' : 'flex';
-    nav.style.flexDirection = 'column';
-    nav.style.position = 'fixed';
-    nav.style.top = '70px';
-    nav.style.right = '0';
-    nav.style.left = '0';
-    nav.style.background = 'rgba(15,15,26,0.98)';
-    nav.style.padding = '20px';
-    nav.style.gap = '4px';
-    nav.style.backdropFilter = 'blur(12px)';
+  function toggleMenu() {
+    const nav = document.getElementById('navMenu');
+    const isOpen = nav.style.display === 'flex';
+    if (isOpen) {
+      nav.style.display = 'none';
+    } else {
+      nav.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(15,15,26,0.98);
+        padding: 20px;
+        gap: 4px;
+        z-index: 999;
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      `;
+    }
   }
 </script>
 </body>

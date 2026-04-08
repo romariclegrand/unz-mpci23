@@ -14,7 +14,6 @@
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'DM Sans',sans-serif; background:var(--darker); color:var(--text); overflow-x:hidden; }
-
     .topbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:16px 40px; display:flex; justify-content:space-between; align-items:center; background:rgba(15,15,26,0.85); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.05); }
     .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; letter-spacing:-0.5px; color:#fff; text-decoration:none; }
     .logo span { color:var(--green); }
@@ -25,32 +24,23 @@
     .nav-cta:hover { background:var(--green-dark) !important; color:#fff !important; }
     .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; }
     .hamburger span { width:24px; height:2px; background:var(--text); border-radius:2px; }
-
     .page-hero { padding:140px 40px 60px; background:var(--dark); border-bottom:1px solid rgba(255,255,255,0.05); position:relative; overflow:hidden; }
     .page-hero::before { content:''; position:absolute; top:0; right:0; width:50%; height:100%; background:radial-gradient(ellipse at 80% 50%, rgba(55,138,221,0.08) 0%, transparent 70%); }
     .page-hero-inner { max-width:1200px; margin:0 auto; position:relative; }
     .section-tag { display:inline-block; font-size:0.75rem; font-weight:500; text-transform:uppercase; letter-spacing:2px; color:var(--blue); margin-bottom:12px; }
     .page-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2.2rem,5vw,3.5rem); letter-spacing:-2px; color:#fff; line-height:1.05; }
     .page-subtitle { font-size:1rem; color:var(--text-muted); margin-top:12px; max-width:500px; line-height:1.7; }
-
     .search-bar { padding:24px 40px; background:var(--dark); border-bottom:1px solid rgba(255,255,255,0.05); }
     .search-inner { max-width:1200px; margin:0 auto; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
     .search-input-wrap { position:relative; flex:1; min-width:260px; }
     .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); }
-    .search-input {
-      width:100%; padding:10px 14px 10px 40px;
-      background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
-      border-radius:30px; color:var(--text); font-size:0.88rem; font-family:'DM Sans',sans-serif;
-      outline:none; transition:border-color 0.2s;
-    }
+    .search-input { width:100%; padding:10px 14px 10px 40px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:30px; color:var(--text); font-size:0.88rem; font-family:'DM Sans',sans-serif; outline:none; transition:border-color 0.2s; }
     .search-input::placeholder { color:var(--text-muted); }
     .search-input:focus { border-color:rgba(55,138,221,0.4); }
     .cat-btn { padding:8px 18px; border-radius:20px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:var(--text-muted); font-size:0.82rem; font-weight:500; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
     .cat-btn:hover { border-color:rgba(55,138,221,0.4); color:var(--blue); }
     .cat-btn.active { background:rgba(55,138,221,0.15); border-color:rgba(55,138,221,0.4); color:var(--blue); }
-
     main { padding:60px 40px; max-width:1200px; margin:0 auto; }
-
     .subject-section { margin-bottom:56px; }
     .subject-header { display:flex; align-items:center; gap:16px; margin-bottom:24px; }
     .subject-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
@@ -61,20 +51,11 @@
     .subject-name { font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem; color:#fff; }
     .subject-count { font-size:0.8rem; color:var(--text-muted); margin-top:2px; }
     .subject-divider { flex:1; height:1px; background:rgba(255,255,255,0.06); }
-
     .doc-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:14px; }
-
-    .doc-card {
-      background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
-      border-radius:14px; padding:20px; display:flex; align-items:flex-start; gap:16px;
-      transition:all 0.25s;
-    }
+    .doc-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:20px; display:flex; align-items:flex-start; gap:16px; transition:all 0.25s; }
     .doc-card:hover { border-color:rgba(55,138,221,0.35); background:rgba(55,138,221,0.04); transform:translateY(-2px); }
-
     .doc-icon { width:48px; height:48px; flex-shrink:0; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; }
     .di-pdf { background:rgba(216,90,48,0.15); }
-    .di-doc { background:rgba(55,138,221,0.15); }
-
     .doc-info { flex:1; min-width:0; }
     .doc-title { font-weight:500; font-size:0.95rem; color:#fff; margin-bottom:4px; line-height:1.3; }
     .doc-meta { font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; }
@@ -84,23 +65,20 @@
     .doc-btn-dl:hover { background:rgba(29,158,117,0.25); color:var(--green); }
     .doc-btn-view { background:rgba(255,255,255,0.05); color:var(--text-muted); border:1px solid rgba(255,255,255,0.08); }
     .doc-btn-view:hover { background:rgba(255,255,255,0.1); color:#fff; }
-
     .upload-cta { margin-top:60px; padding:40px; background:rgba(55,138,221,0.06); border:1px solid rgba(55,138,221,0.15); border-radius:20px; text-align:center; }
     .upload-cta h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:1.3rem; color:#fff; margin-bottom:8px; }
     .upload-cta p { font-size:0.9rem; color:var(--text-muted); margin-bottom:20px; }
     .btn-upload { background:var(--blue); color:#fff; border:none; padding:12px 28px; border-radius:30px; font-weight:500; font-size:0.9rem; cursor:pointer; text-decoration:none; display:inline-block; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
     .btn-upload:hover { opacity:0.85; color:#fff; transform:translateY(-2px); }
-
     footer { background:#080812; padding:40px; text-align:center; border-top:1px solid rgba(255,255,255,0.05); }
     .footer-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:#fff; margin-bottom:8px; }
     .footer-logo span { color:var(--green); }
     .footer-copy { font-size:0.82rem; color:var(--text-muted); }
-
     .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
     .fade-up.visible { opacity:1; transform:translateY(0); }
-
     @media (max-width:900px) {
-      .nav-links { display:none; } .hamburger { display:flex; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
       .topbar, .page-hero, main, .search-bar { padding-left:20px; padding-right:20px; }
     }
     ::-webkit-scrollbar { width:6px; }
@@ -111,17 +89,19 @@
 <body>
 
 <nav class="topbar">
-  <a href="fichier.html" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
-  <ul class="nav-links">
+  <a href="{% url 'accueil' %}" class="logo">UNZ<span>·</span>INFO<span>/23</span></a>
+  <ul class="nav-links" id="navMenu">
     <li><a href="{% url 'accueil' %}">Accueil</a></li>
-    <li><a href="{% url 'bibliotheque' %}">Bibliothèque</a></li>
-    <li><a href=" {% url 'images' %}">Images</a></li>
+    <li><a href="{% url 'bibliotheque' %}" class="active">Bibliothèque</a></li>
+    <li><a href="{% url 'images' %}">Images</a></li>
     <li><a href="#">Vidéos</a></li>
-    <li><a href="{% url 'actualites' %}" class="active">Actualités</a></li>
+    <li><a href="{% url 'actualites' %}">Actualités</a></li>
     <li><a href="{% url 'apropos' %}">À propos</a></li>
-    <li><a href="{% url 'login' %}" class="nav-cta">Connexion</a></li>
+    <li><a href="{% url 'logout' %}" class="nav-cta">Déconnexion</a></li>
   </ul>
-  <div class="hamburger"><span></span><span></span><span></span></div>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <div class="page-hero">
@@ -150,12 +130,40 @@
 
 <main>
 
+  {% if documents %}
+  <div class="subject-section fade-up">
+    <div class="subject-header">
+      <div class="subject-icon si-green">📚</div>
+      <div>
+        <div class="subject-name">Documents partagés</div>
+        <div class="subject-count">{{ documents.count }} document{{ documents.count|pluralize }}</div>
+      </div>
+      <div class="subject-divider"></div>
+    </div>
+    <div class="doc-grid">
+      {% for doc in documents %}
+      <div class="doc-card">
+        <div class="doc-icon di-pdf">📄</div>
+        <div class="doc-info">
+          <div class="doc-title">{{ doc.titre }}</div>
+          <div class="doc-meta">{{ doc.matiere }} · {{ doc.date_ajout|date:"d/m/Y" }}</div>
+          <div class="doc-actions">
+            <a class="doc-btn doc-btn-dl" href="{{ doc.fichier.url }}" download>↓ Télécharger</a>
+            <a class="doc-btn doc-btn-view" href="{{ doc.fichier.url }}" target="_blank">Consulter</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   <div class="subject-section fade-up">
     <div class="subject-header">
       <div class="subject-icon si-blue">💻</div>
       <div>
         <div class="subject-name">Informatique</div>
-        <div class="subject-count">2 +documents</div>
+        <div class="subject-count">2 documents</div>
       </div>
       <div class="subject-divider"></div>
     </div>
@@ -270,6 +278,29 @@
       this.classList.add('active');
     });
   });
+
+  function toggleMenu() {
+    const nav = document.getElementById('navMenu');
+    const isOpen = nav.style.display === 'flex';
+    if (isOpen) {
+      nav.style.display = 'none';
+    } else {
+      nav.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(15,15,26,0.98);
+        padding: 20px;
+        gap: 4px;
+        z-index: 999;
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      `;
+    }
+  }
 </script>
 </body>
 </html>

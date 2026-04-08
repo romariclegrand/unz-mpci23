@@ -128,7 +128,7 @@
     <li><a href="{% url 'apropos' %}">À propos</a></li>
     <li><a href="{% url 'login' %}" class="nav-cta">Connexion</a></li>
   </ul>
-  <div class="hamburger"><span></span><span></span><span></span></div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 
 <div class="page-hero">
@@ -219,6 +219,29 @@
       this.classList.add('active');
     });
   });
+
+    function toggleMenu() {
+    const nav = document.getElementById('navMenu');
+    const isOpen = nav.style.display === 'flex';
+    if (isOpen) {
+      nav.style.display = 'none';
+    } else {
+      nav.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(15,15,26,0.98);
+        padding: 20px;
+        gap: 4px;
+        z-index: 999;
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      `;
+    }
+  }
 
   function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
