@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,12 +22,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^r%1xiq0^=an7*#ev*27g0#qpf5@6qrz*xmoizaqg1zcbhjbqu'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-^r%1xiq0^=an7*#ev*27g0#qpf5@6qrz*xmoizaqg1zcbhjbqu')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Permet de passer DEBUG à False automatiquement en production via les variables d'environnement
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['unz-mpci23-production.up.railway.app', '127.0.0.1', 'localhost']
+# Autorise Railway, localhost et toutes les URLs générées par Render (.onrender.com)
+ALLOWED_HOSTS = [
+    'unz-mpci23-production.up.railway.app', 
+    '127.0.0.1', 
+    'localhost', 
+    '.onrender.com'
+]
+
 
 # Application definition
 
@@ -43,7 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Pour la gestion efficace des fichiers statiques
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,9 +65,8 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
         'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -75,9 +82,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-import dj_database_url
-import os
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -121,14 +125,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-import os
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'source')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
-CSRF_TRUSTED_ORIGINS = ['https://unz-mpci23-production.up.railway.app']
+
+# Autorise la sécurité CSRF sur l'ancienne URL Railway et toutes les nouvelles URLs Render
+CSRF_TRUSTED_ORIGINS = [
+    'https://unz-mpci23-production.up.railway.app',
+    'https://*.onrender.com'
+]
